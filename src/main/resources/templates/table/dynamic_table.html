@@ -62,6 +62,7 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>id</th>
                                         <th>name</th>
                                         <th>age</th>
                                         <th>email</th>
@@ -72,7 +73,7 @@
                                     <!--user:保存的是取出的数据，是一个对象-->
                                     <!--stat：遍历状态-->
                                     <tr class="gradeX" th:each="user,stat: ${page.records}">
-                                        <!--<td th:text="${stat.count}"></td>-->
+                                        <td th:text="${stat.count}"></td>
                                         <td th:text="${user.id}"></td>
                                         <td>[[${user.name}]]</td>
                                         <td th:text="${user.age}">Win 95+</td>

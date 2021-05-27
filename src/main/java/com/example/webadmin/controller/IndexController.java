@@ -1,12 +1,20 @@
 package com.example.webadmin.controller;
 
+import com.example.webadmin.bean.Account;
+import com.example.webadmin.bean.City;
 import com.example.webadmin.bean.User;
+import com.example.webadmin.service.AccountService;
+import com.example.webadmin.service.CityService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 import javax.servlet.http.HttpSession;
@@ -14,6 +22,46 @@ import javax.servlet.http.HttpSession;
 @Controller
 @Slf4j
 public class IndexController {
+
+    @Autowired
+    JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    AccountService accountService;
+
+    @Autowired
+    CityService cityService;
+
+    @ResponseBody
+    @PostMapping("/savecity")
+    public City saveCity(City  city){
+
+        cityService.saveCity(city);
+        return city;
+
+    }
+
+    @ResponseBody
+    @GetMapping("/city")
+    public City getCityById(@RequestParam("id") Long id){
+        return cityService.getById(id);
+    }
+
+    @ResponseBody
+    @GetMapping("/acct")
+    public Account getById(@RequestParam("id") Long id){
+
+        return accountService.getByid(id);
+    }
+
+    @ResponseBody
+    @GetMapping("/sql")
+    public String queryFromDb(){
+
+        Long aLong = jdbcTemplate.queryForObject("select count(*) from account_tb1", Long.class);
+        return aLong.toString();
+
+    }
 
     /**
      * 访问登录页
